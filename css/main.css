@@ -8,24 +8,29 @@ body {
   position: relative;
   margin: 20px; }
 
-#left, #right {
+#field {
+  height: 500px;
+  background-color: #004d00;
+  position: relative; }
+
+#player1, #player2 {
   position: absolute;
   top: 0; }
 
-#left {
-  left: 0; }
-  #left .dude {
+#player1 {
+  top: 0; }
+  #player1 .dude {
     background-color: #fff; }
 
-#right {
-  right: 0; }
-  #right .dude {
+#player2 {
+  bottom: 0; }
+  #player2 .dude {
     background-color: #000; }
 
 .dude {
   width: 30px;
   height: 30px;
-  margin-top: 10px;
-  cursor: pointer; }
+  cursor: pointer;
+  position: absolute; }
   .dude.active {
     border: 3px solid #09f; }

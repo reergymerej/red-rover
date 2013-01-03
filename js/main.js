@@ -1,38 +1,61 @@
-
+var dudesPlayer1,
+	dudesPlayer2;
 
 $(function(){
-	//	new game
+	//	load modules
+	require(['dude',
+			'field'], 
+	function(dudeMod,
+			fieldMod){
 
-	//	clear old game
+		//	new game
 
-	var d = [],
-		dv,
-		Dudes,
-		dudesLeft,
-		dudesRight;
+		//	clear old game
 
+		var DUDES_PER_TEAM = 10,
+			orientation = 'vertical',
+			field;
 
-	//	create dudes
-	require(['dude'], function(dudeMod){
+		//	create field
+		field = new fieldMod.Field(orientation);
 
-		//	not sure how to use collection
-		Dudes = Backbone.Collection.extend({
-			model: dudeMod.DudeModel
-		});
+		/*var dudesPlayer1,
+			dudesPlayer2;*/
 
-		for(var i = 0; i < 8; i++){
-			d.push( new dudeMod.Dude('left') );
+		dudesPlayer1 = createDudes('player1', DUDES_PER_TEAM);
+		dudesPlayer2 = createDudes('player2', DUDES_PER_TEAM);
+		
+		for(var i = 0; i < dudesPlayer1.models.length; i++){
+			dudesPlayer1.models[i].set({test:'woo'});
 		};
 
-		dudesLeft = new Dudes(d);
+		//	player 2 turn
+		//	pick a dude to call over
+		console.log(dudesPlayer1.models[4].set({active:true}));
+		dudesPlayer1.models[4].trigger('change:active');
+		console.log(dudesPlayer1.models[4].get('active'));
+		
 
-		d = [];
-		for(var i = 0; i < 8; i++){
-			d.push( new dudeMod.Dude('right') );
+		/**
+		* @param {string} side player1/player2
+		* @param {number} perSide how many dudes to make
+		* @return {backbone collection}
+		**/
+		function createDudes(side, perSide){
+
+			var d = [],
+				Dudes;
+
+			//	not sure how to use collection
+			Dudes = Backbone.Collection.extend({
+				model: dudeMod.DudeModel
+			});
+
+			for(var i = 0; i < perSide; i++){
+				d.push( new dudeMod.Dude( side, field ) );
+			};
+
+			return new Dudes(d);
 		};
-
-		dudesRight = new Dudes(d);
-
-		console.log(dudesLeft, dudesRight);
 	});
 });
